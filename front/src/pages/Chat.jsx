@@ -1,20 +1,19 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-
-const mockMessages = [
-  { id: 1, username: "John", text: "Hello!" },
-  { id: 2, username: "Jane", text: "Hi!" },
-  { id: 3, username: "John", text: "How are you?" },
-];
+import useMessagesQuery from "@/queries/useMessagesQuery.js";
+import useSendMessageMutation from "@/queries/useSendMessageMutation.js";
 
 function Chat({ user }) {
-  const [messages, setMessages] = useState(mockMessages);
+  const { data: messages, isLoading } = useMessagesQuery();
+
+  const { mutate: sendMessage } = useSendMessageMutation();
+
   const { register, handleSubmit, setValue } = useForm();
 
   return (
     <div className="Chat">
       <h4>Welcome to the chat room!</h4>
-      {messages.map((message) => (
+      {isLoading && <div>Loading...</div>}
+      {messages?.map((message) => (
         <div key={message.id} className="Chat-message">
           <span className="Chat-message-username">{message.username}: </span>
           <span>{message.text}</span>
@@ -23,11 +22,7 @@ function Chat({ user }) {
       <form
         className="Chat-form"
         onSubmit={handleSubmit((data) => {
-          console.log(data);
-          setMessages((oldMessages) => [
-            ...oldMessages,
-            { id: oldMessages.length + 1, username: user, text: data.message },
-          ]);
+          sendMessage({ username: user, text: data.message });
           setValue("message", "");
         })}
       >
