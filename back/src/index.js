@@ -1,4 +1,5 @@
 const express = require("express");
+const wss = require("./WebSocketServer");
 const app = express();
 const port = 3000;
 
@@ -23,6 +24,9 @@ app.post("/new-message", (req, res) => {
   const newMessage = { id: mockMessages.length + 1, username, text };
   mockMessages.push(newMessage);
   res.json(newMessage);
+  wss.clients.forEach((client) => {
+    client.send(JSON.stringify(newMessage));
+  });
 });
 
 app.listen(port, () => {
