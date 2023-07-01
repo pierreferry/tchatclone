@@ -1,16 +1,15 @@
 import { useState } from "react";
 import Chat from "./pages/Chat.jsx";
 import Login from "./pages/Login.jsx";
-import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
 
-  if (user) {
-    return <Chat user={user} />;
-  }
-
-  return <Login setUser={setUser} />;
+  return (
+    <div className="flex h-screen items-center justify-center bg-slate-800">
+      {user ? <Chat user={user} /> : <Login setUser={setUser} />}
+    </div>
+  );
 }
 
 export default App;

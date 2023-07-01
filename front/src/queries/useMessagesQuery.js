@@ -6,7 +6,6 @@ function useMessagesQuery() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // const websocket = new WebSocket("ws://localhost:8080");
     const websocket = new WebSocket("ws://localhost:8080");
     websocket.onopen = () => {
       console.log("connected");
