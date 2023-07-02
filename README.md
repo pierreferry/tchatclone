@@ -4,7 +4,7 @@
 
 To run the app, you need to have docker installed on your machine.
 IMPORTANT : I've asked a friend to run the app on his machine and he had some issues with docker. 
-If you have any issue, please try to update docker to latest version or reach out to me.
+If you have any issue, please try to update docker to latest version. If it's something you can't do, try using older versions of node or mongodb images.
 
 To launch the dev environment, run `docker compose up` in the root folder.
 Then go to http://localhost:5173 to see the app.
