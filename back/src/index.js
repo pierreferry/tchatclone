@@ -3,29 +3,33 @@ const wss = require("./WebSocketServer");
 const app = express();
 const port = 3000;
 
+const db = require("./db/mongo");
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-const mockMessages = [
-  { id: 1, username: "John", text: "Hello!" },
-  { id: 2, username: "Jane", text: "Hi!" },
-  { id: 3, username: "John", text: "How are you?" },
-];
+app.get("/messages", async (req, res) => {
+  const connection = await db();
+  const collection = connection.collection("messages");
+  const messages = await collection.find({}).toArray();
 
-app.get("/messages", (req, res) => {
-  res.json(mockMessages);
+  res.json(messages);
 });
 
-app.post("/new-message", (req, res) => {
+app.post("/new-message", async (req, res) => {
   const { username, text } = req.body;
-  const newMessage = { id: mockMessages.length + 1, username, text };
-  mockMessages.push(newMessage);
-  res.json(newMessage);
+  const newMessage = { username, text };
+
+  const connection = await db();
+  const collection = connection.collection("messages");
+  const result = await collection.insertOne(newMessage);
+
+  res.json(result);
   wss.clients.forEach((client) => {
-    client.send(JSON.stringify(newMessage));
+    client.send(JSON.stringify(result));
   });
 });
 
