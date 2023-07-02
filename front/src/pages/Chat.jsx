@@ -20,7 +20,7 @@ function Chat({ user }) {
           https://stackoverflow.com/a/36776769/5275921 */}
           {isLoading && <div>Loading...</div>}
           {messages?.map((message) => (
-            <div key={message.id}>
+            <div key={message._id}>
               <span>{message.username}: </span>
               <span>{message.text}</span>
             </div>
