@@ -9,7 +9,7 @@ If you have any issue, please try to update docker to latest version. If it's so
 To launch the dev environment, run `docker compose up` in the root folder.
 Then go to http://localhost:5173 to see the app.
 
-If you want to change styles, you can run `npm run watch:css` in another terminal.
+TODO : Fix the update of TailwindCSS files in Docker.
 
 ## Libraries choices
 
